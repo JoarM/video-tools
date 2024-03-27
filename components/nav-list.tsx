@@ -8,7 +8,7 @@ export default function NavList() {
     const path = usePathname();
 
     return (
-        <ul className="flex items-center gap-4">
+        <ul className="hidden md:flex items-center gap-4">
             <li>
                 <Button asChild variant="link" className="text-foreground aria-[current='page']:underline" aria-current={path === "/gif" ? "page" : "false"}>
                     <Link href="/gif">

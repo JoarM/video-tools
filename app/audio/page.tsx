@@ -5,45 +5,45 @@ import { FileInput } from "@/components/ui/file-input";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFFmpeg } from "@/hooks/ffmpeg"
-import { videoFormats } from "@/lib/consts";
+import { audioFormats } from "@/lib/consts";
 import { cn } from "@/lib/utils";
 import { fetchFile } from "@ffmpeg/util";
 import { DownloadIcon, VideoIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 
-export default function Video() {
+export default function Audio() {
     const [progess, setProgress] = useState(0);
     const { loading, ffmpeg } = useFFmpeg({
         onProgress: setProgress
     });
-    const [video, setVideo] = useState<File | null>(null);
+    const [audio, setAudio] = useState<File | null>(null);
     const [fileError, setFileError] = useState("");
-    const [videoUrl, setVideoUrl] = useState("");
+    const [audioUrl, setAudioUrl] = useState("");
     const [converting, setConverting] = useState(false);
     const [conversionFormat, setConversionFormat] = useState<undefined | string>(undefined);
 
-    async function convertVideo() {
+    async function convertAudio() {
         if (!ffmpeg) return;
         if (!conversionFormat) {
             setFileError("Please select output format");
             return;
         }
-        if (!video) {
+        if (!audio) {
             return;
         }
         setConverting(true);
         setProgress(0);
-        ffmpeg.writeFile(video.name, await fetchFile(video));
+        ffmpeg.writeFile(audio.name, await fetchFile(audio));
         
-        const mimeType = videoFormats.find((format) => format.fileEnding === conversionFormat)?.mimeType;
+        const mimeType = audioFormats.find((format) => format.fileEnding === conversionFormat)?.mimeType;
         if (!mimeType) {
             return;
         }
         try {
-            await ffmpeg.exec(['-i', video.name, `out${conversionFormat}`]);
+            await ffmpeg.exec(['-i', audio.name, `out${conversionFormat}`]);
             const data = (await ffmpeg.readFile(`out${conversionFormat}`)) as any;
             const url = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
-            setVideoUrl(url);
+            setAudioUrl(url);
             setConverting(false);
         } catch (e) {
             setConverting(false);
@@ -53,27 +53,27 @@ export default function Video() {
 
     return (
         <main className="w-full max-w-lg mx-auto px-6 py-12">
-            <h1 className="text-3xl font-bold">Video converter</h1>
+            <h1 className="text-3xl font-bold">Audio converter</h1>
             <FileInput 
-            setValue={setVideo}
+            setValue={setAudio}
             setError={setFileError}
-            mimeType="video"
+            mimeType="audio"
             className="mt-4"
             />
             <span className="text-sm font-medium text-destructive">{fileError}</span>
-            {video && (
+            {audio && (
                 <span className="flex text-sm font-medium text-muted-foreground items-center mt-2">
                     <VideoIcon 
                     className="size-4 mr-2"
                     />
-                    {video.name}
+                    {audio.name}
                     <Select value={conversionFormat} onValueChange={(e) => setConversionFormat(e)}>
                         <SelectTrigger className="w-44 ml-auto">
                             <SelectValue placeholder="Convert to" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                {videoFormats.map(({ fileEnding }) => (
+                                {audioFormats.map(({ fileEnding }) => (
                                     <SelectItem value={fileEnding} key={fileEnding}>{fileEnding}</SelectItem>
                                 ))}
                             </SelectGroup>
@@ -89,19 +89,19 @@ export default function Video() {
                     </div>
                 )}
                 <Button 
-                aria-disabled={!video || converting || loading || !conversionFormat}
-                className={cn("ml-auto flex-shrink-0", (!video || loading) ? "bg-muted-foreground" : "")}
-                onClick={convertVideo}
+                aria-disabled={!audio || converting || loading || !conversionFormat}
+                className={cn("ml-auto flex-shrink-0", (!audio || loading) ? "bg-muted-foreground" : "")}
+                onClick={convertAudio}
                 >
-                    {!!video ? conversionFormat ? `Convert to ${conversionFormat}` : "Select conversion format" : "Select video"}
+                    {!!audio ? conversionFormat ? `Convert to ${conversionFormat}` : "Select conversion format" : "Select audio"}
                 </Button>
             </div>
             
-            {videoUrl && (
+            {audioUrl && (
                 <div className="mt-4 flex flex-col">
-                    <video src={videoUrl} className="rounded-md" controls></video>
+                    <audio src={audioUrl} className="rounded-md" controls></audio>
                     <Button asChild className="mt-3 ml-auto">
-                        <a href={videoUrl} download={true}>
+                        <a href={audioUrl} download={true}>
                             <DownloadIcon
                             className="mr-2 size-4"
                             />

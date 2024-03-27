@@ -10,16 +10,13 @@ export function useFFmpeg({
     onProgress?: (progress: number) => void,
 }) {
     const [loading, setLoading] = useState(true);
-    const ffmpegRef = useRef(new FFmpeg());
+    const [ffmpeg, setFFmpeg] = useState<null | FFmpeg>(null);
 
     async function load(onProgress?: (progress: number) => void) {
         const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd'
-        const ffmpeg = ffmpegRef.current
+        if (!ffmpeg) return;
 
-        ffmpeg.on("log", ({ message }) => {
-            //console.log(message);
-        });
-        ffmpeg.on("progress", ({ progress, time }) => {
+        ffmpeg.on("progress", ({ progress }) => {
             onProgress && onProgress(progress);
         });
 
@@ -32,11 +29,16 @@ export function useFFmpeg({
     }
 
     useEffect(() => {
+        setFFmpeg(new FFmpeg());
+    }, [])
+
+    useEffect(() => {
+        if (!ffmpeg) return;
         load(onProgress);
-    }, []);
+    }, [ffmpeg]);
 
     return {
-        ffmpeg: ffmpegRef.current,
+        ffmpeg,
         loading
     }
 }
