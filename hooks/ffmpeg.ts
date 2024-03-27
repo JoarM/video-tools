@@ -17,9 +17,9 @@ export function useFFmpeg({
         const ffmpeg = ffmpegRef.current
 
         ffmpeg.on("log", ({ message }) => {
-            console.log(message);
+            //console.log(message);
         });
-        ffmpeg.on("progress", ({ progress }) => {
+        ffmpeg.on("progress", ({ progress, time }) => {
             onProgress && onProgress(progress);
         });
 
