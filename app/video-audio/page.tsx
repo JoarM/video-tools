@@ -53,7 +53,7 @@ export default function VideoAudio() {
 
     return (
         <main className="w-full max-w-lg mx-auto px-6 py-12">
-            <h1 className="text-3xl font-bold">Video converter</h1>
+            <h1 className="text-3xl font-bold">Video to Audio</h1>
             <FileInput 
             setValue={setAudio}
             setError={setFileError}
