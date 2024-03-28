@@ -47,7 +47,7 @@ export default function RootLayout({
                     </div>
                     {children}
                     <footer className="w-full max-w-5xl mx-auto px-6 py-12 border-t border-border mt-auto flex items-center flex-wrap gap-4">
-                        <div className="flex gap-2 items-center">
+                        <div className="flex gap-2 items-center flex-wrap">
                             <a href="https://github.com/JoarM/video-tools">
                                 <GitHubLogoIcon
                                 className="size-5"
@@ -57,7 +57,7 @@ export default function RootLayout({
                             <p className="text-sm font-medium">Video tools developed by <a href="https://joar.vercel.app" className="underline underline-offset-4">Joar Maltesson</a></p>
                         </div>
                         <ThemeSwitcher 
-                        className="ml-auto"
+                        className="ml-auto hidden md:block"
                         />
                     </footer>
                 </ThemeProvider>

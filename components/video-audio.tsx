@@ -18,6 +18,8 @@ export default function VideoAudio() {
     });
     const [audio, setAudio] = useState<File | null>(null);
     const [fileError, setFileError] = useState("");
+    const [formatError, setFormatError] = useState("");
+    const [conversionError, setConversionError] = useState("");
     const [audioUrl, setAudioUrl] = useState("");
     const [converting, setConverting] = useState(false);
     const [conversionFormat, setConversionFormat] = useState<undefined | string>(undefined);
@@ -25,14 +27,14 @@ export default function VideoAudio() {
     async function convertToAudio() {
         if (!ffmpeg) return;
         if (!conversionFormat) {
-            setFileError("Please select output format");
+            setFormatError("Please select output format");
             return;
         }
         if (!audio) {
             return;
         }
-        setConverting(true);
         setProgress(0);
+        setConverting(true);
         ffmpeg.writeFile(audio.name, await fetchFile(audio));
         
         const mimeType = audioFormats.find((format) => format.fileEnding === conversionFormat)?.mimeType;
@@ -40,14 +42,19 @@ export default function VideoAudio() {
             return;
         }
         try {
-            await ffmpeg.exec(['-i', audio.name, `out${conversionFormat}`]);
+            const res = await ffmpeg.exec(['-i', audio.name, `out${conversionFormat}`]);
+            if (res) {
+                setConverting(false);
+                setConversionError("An error occured when trying to convert.");
+                return
+            }
             const data = (await ffmpeg.readFile(`out${conversionFormat}`)) as any;
             const url = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
             setAudioUrl(url);
             setConverting(false);
         } catch (e) {
             setConverting(false);
-            setFileError("An error occured when trying to convert.");
+            setConversionError("An error occured when trying to convert.");
         }
     }
 
@@ -60,9 +67,9 @@ export default function VideoAudio() {
             mimeType="video"
             className="mt-4"
             />
-            <span className="text-sm font-medium text-destructive">{fileError}</span>
+            {fileError && <span className="text-sm font-medium text-destructive">{fileError}</span>}
             {audio && (
-                <span className="flex text-sm font-medium text-muted-foreground items-center mt-2">
+                <span className="flex text-sm font-medium text-muted-foreground items-center mt-2 flex-wrap gap-2">
                     <VideoIcon 
                     className="size-4 mr-2"
                     />
@@ -81,6 +88,7 @@ export default function VideoAudio() {
                     </Select>
                 </span>
             )}
+            {formatError && <span className="text-sm font-medium text-destructive">{formatError}</span>}
             <div className="flex flex-wrap items-center gap-4 mt-4">
                 {converting && (
                     <div className="flex flex-wrap items-center flex-grow gap-2">
@@ -90,12 +98,13 @@ export default function VideoAudio() {
                 )}
                 <Button 
                 aria-disabled={!audio || converting || loading || !conversionFormat}
-                className={cn("ml-auto flex-shrink-0", (!audio || loading) ? "bg-muted-foreground" : "")}
+                className={cn("ml-auto flex-shrink-0", (!audio || loading) ? "aria-disabled:bg-muted-foreground/50" : "")}
                 onClick={convertToAudio}
                 >
                     {!!audio ? conversionFormat ? `Convert to ${conversionFormat}` : "Select conversion format" : "Select video"}
                 </Button>
             </div>
+            {conversionError && <span className="text-sm font-medium text-destructive">{conversionError}</span>}
             
             {audioUrl && (
                 <div className="mt-4 flex flex-col">
