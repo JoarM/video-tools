@@ -14,7 +14,10 @@ const fontSans = FontSans({
     variable: "--font-sans",
 })
 export const metadata: Metadata = {
-    title: "Video tools",
+    title: {
+        template: '%s | Video tools',
+        default: "Video tools",
+    },
     description: "A set of tools for converting video and audio.",
 };
 
