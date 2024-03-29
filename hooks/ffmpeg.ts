@@ -16,6 +16,9 @@ export function useFFmpeg({
         const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd'
         if (!ffmpeg) return;
 
+        ffmpeg.on("log", ({ message }) => {
+            console.log(message);
+        })
         ffmpeg.on("progress", ({ progress }) => {
             onProgress && onProgress(progress);
         });

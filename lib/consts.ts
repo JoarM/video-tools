@@ -28,7 +28,15 @@ export const videoFormats: videoFormat[] = [
     {
         fileEnding: ".ogv",
         mimeType: "video/ogg",
-    }
+    },
+    {
+        fileEnding: ".mpeg",
+        mimeType: "video/mpeg"
+    },
+    {
+        fileEnding: ".ts",
+        mimeType: "video/mp2t"
+    },
 ] as const;
 
 export const audioFormats: audioFormats[] = [
@@ -41,7 +49,11 @@ export const audioFormats: audioFormats[] = [
         mimeType: "audio/x-wav"
     },
     {
-        fileEnding: ".ogv",
+        fileEnding: ".oga",
         mimeType: "audio/ogg",
+    },
+    {
+        fileEnding: ".aac",
+        mimeType: "audio/aac"
     },
 ] as const;

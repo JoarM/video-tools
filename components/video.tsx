@@ -35,6 +35,8 @@ export default function Video() {
         }
         setProgress(0);
         setConverting(true);
+        setConversionError("");
+        setFormatError("");
         ffmpeg.writeFile(video.name, await fetchFile(video));
         
         const mimeType = videoFormats.find((format) => format.fileEnding === conversionFormat)?.mimeType;

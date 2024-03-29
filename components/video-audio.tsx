@@ -35,6 +35,8 @@ export default function VideoAudio() {
         }
         setProgress(0);
         setConverting(true);
+        setConversionError("");
+        setFormatError("");
         ffmpeg.writeFile(audio.name, await fetchFile(audio));
         
         const mimeType = audioFormats.find((format) => format.fileEnding === conversionFormat)?.mimeType;
