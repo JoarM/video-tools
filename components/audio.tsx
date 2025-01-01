@@ -9,13 +9,43 @@ import { audioFormats } from "@/lib/consts";
 import { cn } from "@/lib/utils";
 import { fetchFile } from "@ffmpeg/util";
 import { DownloadIcon, VideoIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Audio() {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, [])
+
+    return (
+        <>
+            {mounted ? 
+            <AudioClient /> 
+            : 
+            <main className="w-full max-w-lg mx-auto px-6 py-12">
+                <h1 className="text-3xl font-bold">Audio converter</h1>
+                <div className="w-full border border-input border-dashed rounded-lg p-6 h-32 grid place-items-center focus-within:border-primary focus-within:bg-primary/10 false mt-4 animate-pulse bg-muted"></div>
+                <div className="flex flex-wrap items-center gap-4 mt-4">
+                    <Button 
+                    aria-disabled={true}
+                    className={cn("ml-auto flex-shrink-0 aria-disabled:bg-muted-foreground/50")}
+                    >
+                        Select audio
+                    </Button>
+                </div>
+            </main>
+            }
+        </>
+    )
+}
+
+function AudioClient() {
     const [progess, setProgress] = useState(0);
     const { loading, ffmpeg } = useFFmpeg({
         onProgress: setProgress
-    });
+    })
+    
     const [audio, setAudio] = useState<File | null>(null);
     const [fileError, setFileError] = useState("");
     const [formatError, setFormatError] = useState("");
