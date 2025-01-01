@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 import { FileDrop } from "react-file-drop";

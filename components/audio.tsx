@@ -37,20 +37,20 @@ export default function Audio() {
         setConverting(true);
         setConversionError("");
         setFormatError("");
-        ffmpeg.writeFile(audio.name, await fetchFile(audio));
+        ffmpeg.current.writeFile(audio.name, await fetchFile(audio));
         
         const mimeType = audioFormats.find((format) => format.fileEnding === conversionFormat)?.mimeType;
         if (!mimeType) {
             return;
         }
         try {
-            const res = await ffmpeg.exec(['-i', audio.name, `out${conversionFormat}`]);
+            const res = await ffmpeg.current.exec(['-i', audio.name, `out${conversionFormat}`]);
             if (res) {
                 setConverting(false);
                 setConversionError("An error occured when trying to convert.");
                 return
             }
-            const data = (await ffmpeg.readFile(`out${conversionFormat}`)) as any;
+            const data = (await ffmpeg.current.readFile(`out${conversionFormat}`)) as any;
             const url = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
             setAudioUrl(url);
             setConverting(false);

@@ -37,20 +37,20 @@ export default function Video() {
         setConverting(true);
         setConversionError("");
         setFormatError("");
-        ffmpeg.writeFile(video.name, await fetchFile(video));
+        ffmpeg.current.writeFile(video.name, await fetchFile(video));
         
         const mimeType = videoFormats.find((format) => format.fileEnding === conversionFormat)?.mimeType;
         if (!mimeType) {
             return;
         }
         try {
-            const res = await ffmpeg.exec(['-i', video.name, `out${conversionFormat}`]);
+            const res = await ffmpeg.current.exec(['-i', video.name, `out${conversionFormat}`]);
             if (res) {
                 setConverting(false);
                 setConversionError("An error occured when trying to convert.");
                 return
             }
-            const data = (await ffmpeg.readFile(`out${conversionFormat}`)) as any;
+            const data = (await ffmpeg.current.readFile(`out${conversionFormat}`)) as any;
             const url = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
             setVideoUrl(url);
             setConverting(false);

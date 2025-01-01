@@ -54,7 +54,7 @@ export default function RootLayout({
                                 />
                                 <span className="sr-only">Source code</span>
                             </a>
-                            <p className="text-sm font-medium">Video tools developed by <a href="https://joar.vercel.app" className="underline underline-offset-4">Joar Maltesson</a></p>
+                            <p className="text-sm font-medium">Video tools developed by <a href="https://joar.dev" className="underline underline-offset-4">Joar Maltesson</a></p>
                         </div>
                         <ThemeSwitcher 
                         className="ml-auto hidden md:block"

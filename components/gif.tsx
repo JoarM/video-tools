@@ -36,15 +36,15 @@ export default function Gif() {
         setConverting(true);
         setConversionError("");
         setFormatError("");
-        ffmpeg.writeFile(video.name, await fetchFile(video));
+        ffmpeg.current.writeFile(video.name, await fetchFile(video));
         try {
-            const res = await ffmpeg.exec(['-i', video.name, "-vf", `scale=${width}:-1:flags=lanczos`, '-f', 'gif', 'out.gif']);
+            const res = await ffmpeg.current.exec(['-i', video.name, "-vf", `scale=${width}:-1:flags=lanczos`, '-f', 'gif', 'out.gif']);
             if (res) {
                 setConverting(false);
                 setConversionError("An error occured");
                 return
             }
-            const data = (await ffmpeg.readFile("out.gif")) as any;
+            const data = (await ffmpeg.current.readFile("out.gif")) as any;
             const url = URL.createObjectURL(new Blob([data.buffer], { type: 'image/gif' }));
             setGifUrl(url);
             setConverting(false);
