@@ -1,45 +1,45 @@
 {
-  "name": "video-tools",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@ffmpeg/ffmpeg": "^0.12.10",
-    "@ffmpeg/util": "^0.12.1",
-    "@radix-ui/react-icons": "^1.3.0",
-    "@radix-ui/react-label": "^2.0.2",
-    "@radix-ui/react-progress": "^1.0.3",
-    "@radix-ui/react-select": "^2.0.0",
-    "@radix-ui/react-slot": "^1.0.2",
-    "@vercel/analytics": "^1.5.0",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
-    "next": "15.3.4",
-    "next-themes": "^0.3.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "react-file-drop": "^3.1.6",
-    "tailwind-merge": "^2.2.2",
-    "tailwindcss-animate": "^1.0.7"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
-    "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "15.3.4",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0",
-    "typescript": "^5"
-  },
-  "overrides": {
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6"
-  }
+    "name": "video-tools",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --turbopack",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@ffmpeg/ffmpeg": "^0.12.10",
+        "@ffmpeg/util": "^0.12.1",
+        "@radix-ui/react-icons": "^1.3.0",
+        "@radix-ui/react-label": "^2.0.2",
+        "@radix-ui/react-progress": "^1.0.3",
+        "@radix-ui/react-select": "^2.0.0",
+        "@radix-ui/react-slot": "^1.0.2",
+        "@vercel/analytics": "^1.5.0",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.0",
+        "next": "15.3.4",
+        "next-themes": "^0.4.6",
+        "react": "19.1.0",
+        "react-dom": "19.1.0",
+        "react-file-drop": "^3.1.6",
+        "tailwind-merge": "^3.3.1",
+        "tailwindcss-animate": "^1.0.7"
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.4",
+        "@types/react": "19.1.8",
+        "@types/react-dom": "19.1.6",
+        "autoprefixer": "^10.0.1",
+        "eslint": "^9.29.0",
+        "eslint-config-next": "15.3.4",
+        "postcss": "^8",
+        "tailwindcss": "^3.3.0",
+        "typescript": "^5.8.3"
+    },
+    "overrides": {
+        "@types/react": "19.1.8",
+        "@types/react-dom": "19.1.6"
+    }
 }
